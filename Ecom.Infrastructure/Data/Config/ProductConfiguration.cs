@@ -18,6 +18,7 @@ namespace Ecom.Infrastructure.Data.Config
             builder.Property(x => x.Description).HasMaxLength(350);
             builder.Property(x => x.Price).HasColumnType("decimal(18, 2)");
             builder.Property(x => x.Id).IsRequired();
+            builder.HasData(new Product { Id = 1, Name = "Smartphone", Description = "Latest model smartphone", Price = 699.99m, CategoryId = 1 });
 
         }
     }

@@ -14,7 +14,12 @@ namespace Ecom.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.InfrastructureServices(builder.Configuration);
+
+            // Extension method to add infrastructure services
+            IServiceCollection serviceCollection = builder.Services.InfrastructureServices(builder.Configuration);
+
+            // Auto Mapper Configurations
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());  
 
             var app = builder.Build();
 
@@ -33,14 +38,6 @@ namespace Ecom.API
             app.MapControllers();
 
             app.Run();
-        }
-    }
-    public static class InfrastructureServiceCollectionExtensions
-    {
-        public static IServiceCollection InfrastructureServices(this IServiceCollection services)
-        {
-            // Register infrastructure services here
-            return services;
         }
     }
 }

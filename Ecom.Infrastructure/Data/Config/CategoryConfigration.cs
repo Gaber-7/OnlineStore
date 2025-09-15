@@ -13,10 +13,10 @@ namespace Ecom.Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-           builder.Property(x => x.Name).IsRequired().HasMaxLength(30);
-              builder.Property(x => x.Description).HasMaxLength(350);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(30);
+            builder.Property(x => x.Description).HasMaxLength(350);
             builder.Property(x => x.Id).IsRequired();
-
+            builder.HasData(new Category { Id = 1, Name = "Electronics", Description = "Devices and gadgets" });
         }
     }
 }
