@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Ecom.API.Helper;
 using Ecom.Core.DTO;
 using Ecom.Core.Entites.Product;
 using Ecom.Core.interfaces;
@@ -20,7 +21,7 @@ namespace Ecom.API.Controllers
               {
                 var category = await work.CategoryRepositry.GetAllAsync();
                 if (category == null || category.Count == 0)
-                    return BadRequest();
+                    return BadRequest(new ResponseAPI(400));
                 return Ok(category);
               }
               catch (Exception ex)
@@ -35,7 +36,7 @@ namespace Ecom.API.Controllers
             {
                 var category = await work.CategoryRepositry.GetByIdAsync(id);
                 if (category == null)
-                    return BadRequest();
+                    return BadRequest(new ResponseAPI(400 , $"Not Found Category Id = {id}"));
                 return Ok(category);
             }
             catch (Exception ex)
@@ -51,7 +52,7 @@ namespace Ecom.API.Controllers
                var category = mapper.Map<Category>(categoryDTO);
 
                 await work.CategoryRepositry.AddAsync(category);
-                return Ok(new { Message = "item has been addedd" } );
+                return Ok(new ResponseAPI(200 , "item has been addedd"));
 
             }   
             catch (Exception ex)
@@ -66,7 +67,7 @@ namespace Ecom.API.Controllers
             {
                 var category = mapper.Map<Category>(CategoryDTO);
                 await work.CategoryRepositry.UpdateAsync(category);
-                return Ok(new { Message = "item has been updated" });
+                return Ok(new ResponseAPI(200, "item has been updated"));
             }
             catch (Exception ex)
             {
@@ -80,7 +81,7 @@ namespace Ecom.API.Controllers
             try
             {
                 await work.CategoryRepositry.DeleteAsync(id);
-                return Ok(new { Message = "item has been deleted" });
+                return Ok(new ResponseAPI(200, "item has been deleted"));
             }
             catch (Exception ex)
             {
