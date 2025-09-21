@@ -20,7 +20,10 @@ namespace Ecom.API
             // Extension method to add infrastructure services
             IServiceCollection serviceCollection = builder.Services.InfrastructureServices(builder.Configuration);
 
-            builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(builder.Environment.ContentRootPath));  //--77
+            //builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(builder.Environment.ContentRootPath));  //--77
+
+            builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());  
 

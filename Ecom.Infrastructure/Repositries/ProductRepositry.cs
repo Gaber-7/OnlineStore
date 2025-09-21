@@ -59,26 +59,38 @@ namespace Ecom.Infrastructure.Repositries
            {
                 return false;
            }
-             mapper.Map(updateProductDTO, FindProduct);   // Map updated properties to the existing product
+            mapper.Map(updateProductDTO, FindProduct);   // Map updated properties to the existing product
             var FindPhoto = await context.Photos.Where(m => m.ProductId == updateProductDTO.Id).ToListAsync();
             foreach (Photo item in FindPhoto)
             {
-                {
-                    imageManagementService.DeleteImageAsync(item.ImageName);
-                }
-                context.Photos.RemoveRange(FindPhoto);
-
-                // Add new images
-                var ImagePaths = await imageManagementService.AddImageAsync(updateProductDTO.Photo, updateProductDTO.Name);
-                var Photos = ImagePaths.Select(path => new Photo
-                {
-                    ImageName = path,
-                    ProductId = updateProductDTO.Id
-                }).ToList();
-                await context.Photos.AddRangeAsync(Photos);
-                await context.SaveChangesAsync();
+               imageManagementService.DeleteImageAsync(item.ImageName);
             }
+            context.Photos.RemoveRange(FindPhoto);
+
+            // Add new images
+            var ImagePaths = await imageManagementService.AddImageAsync(updateProductDTO.Photo, updateProductDTO.Name);
+            var Photos = ImagePaths.Select(path => new Photo
+            {
+                ImageName = path,
+                ProductId = updateProductDTO.Id
+            }).ToList();
+            await context.Photos.AddRangeAsync(Photos);
+            await context.SaveChangesAsync();
+
             return true;
+        }
+        public async Task DeleteAsync(Product product)
+        {
+
+            var photo = await context.Photos.Where(m => m.ProductId == product.Id).ToListAsync();   // get all photos related to the product
+
+            foreach (var item in photo)
+            {
+                imageManagementService.DeleteImageAsync(item.ImageName);   // delete each photo from storage
+            }
+            context.Photos.RemoveRange(photo);  // remove photo records from database
+            context.Products.Remove(product);   // remove the product record from database
+            await context.SaveChangesAsync();   // save changes to database
         }
     }
 }
