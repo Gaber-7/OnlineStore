@@ -3,6 +3,7 @@ using Ecom.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecom.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250921053604_CreatePhoto")]
+    partial class CreatePhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,10 +123,10 @@ namespace Ecom.Infrastructure.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            Description = "Latest model smartphone new ",
+                            Description = "Latest model smartphone",
                             Name = "Smartphone",
-                            NewPrice = 699.999m,
-                            OldPrice = 599.999m
+                            NewPrice = 699.99m,
+                            OldPrice = 599.99m
                         });
                 });
 

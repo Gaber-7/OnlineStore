@@ -15,8 +15,6 @@ namespace Ecom.Infrastructure.Data.Config
         {
             builder.HasData(
                 new Photo { Id = 1, ImageName = "product-1.jpg", ProductId = 1 });
-
-
         }
     }
 }

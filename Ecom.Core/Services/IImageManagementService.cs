@@ -9,8 +9,7 @@ namespace Ecom.Core.Services
 {
     public interface IImageManagementService
     {
-      Task <List<string>> AddImageAsync(IFormFileCollection files, string Src);
-
-      Task<bool> DeleteImageAsync(string Src);
+      Task<List<string>> AddImageAsync(IFormFileCollection files, string Src);      // Method to add images
+      void DeleteImageAsync(string Src);        // Method to delete an image
     }
 }

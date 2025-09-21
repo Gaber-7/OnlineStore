@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ecom.API.Helper;
 using Ecom.Core.DTO;
+using Ecom.Core.Entites.Product;
 using Ecom.Core.interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,12 +54,33 @@ namespace Ecom.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        //[HttpPost("add-product")]
-        //public async Task<IActionResult> add()
-        //{
+        [HttpPost("add-product")]
+        public async Task<IActionResult> add(AddProductDTO productDTO2)
+        {
+            try
+            {
+                await work.ProductRepositry.AddAsync(productDTO2);
+                return Ok(new ResponseAPI(200, "Product added successfully"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-
-        //}
+        }
+        [HttpPut("update-product")]
+        public async Task<IActionResult> update(UpdateProductDTO updateProductDTO)
+        {
+            try
+            {
+                await work.ProductRepositry.UpdateAsync(updateProductDTO);
+                return Ok(new ResponseAPI(200, "Product updated successfully"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest( new ResponseAPI(400 , ex.Message));
+            }
+        }
 
     }
 }

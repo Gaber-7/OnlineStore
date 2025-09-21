@@ -1,5 +1,7 @@
  
 using Ecom.Infrastructure;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.DependencyInjection;
 namespace Ecom.API
 {
     public class Program
@@ -18,7 +20,8 @@ namespace Ecom.API
             // Extension method to add infrastructure services
             IServiceCollection serviceCollection = builder.Services.InfrastructureServices(builder.Configuration);
 
-            // Auto Mapper Configurations
+            builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(builder.Environment.ContentRootPath));  //--77
+
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());  
 
             var app = builder.Build();

@@ -16,9 +16,10 @@ namespace Ecom.Infrastructure.Data.Config
             builder.Property(x => x.Name).IsRequired().HasMaxLength(30);
 
             builder.Property(x => x.Description).HasMaxLength(350);
-            builder.Property(x => x.Price).HasColumnType("decimal(18, 2)");
+            builder.Property(x => x.NewPrice).HasColumnType("decimal(18, 2)");
+            builder.Property(x => x.OldPrice).HasColumnType("decimal(18, 2)");
             builder.Property(x => x.Id).IsRequired();
-            builder.HasData(new Product { Id = 1, Name = "Smartphone", Description = "Latest model smartphone", Price = 699.99m, CategoryId = 1 });
+            builder.HasData(new Product { Id = 1, Name = "Smartphone", Description = "Latest model smartphone new ", NewPrice = 699.999m, OldPrice = 599.999m, CategoryId = 1 });
 
         }
     }

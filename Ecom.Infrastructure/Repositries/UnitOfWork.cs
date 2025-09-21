@@ -1,4 +1,6 @@
-﻿using Ecom.Core.interfaces;
+﻿using AutoMapper;
+using Ecom.Core.interfaces;
+using Ecom.Core.Services;
 using Ecom.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,8 @@ namespace Ecom.Infrastructure.Repositries
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IImageManagementService _imageManagementService;   
 
         public IProductRepositry ProductRepositry { get; }
 
@@ -18,12 +22,15 @@ namespace Ecom.Infrastructure.Repositries
 
         public IPhotoRepositry PhotoRepositry { get; }
 
-        public UnitOfWork(AppDbContext context)
+        public UnitOfWork(AppDbContext context, IMapper mapper, IImageManagementService imageManagementService)
         {
             _context = context;
+            _mapper = mapper;
+            _imageManagementService = imageManagementService;
             CategoryRepositry = new GategoryRepositry(_context);
-            ProductRepositry = new ProductRepositry(_context);
+            ProductRepositry = new ProductRepositry(_context , _mapper , _imageManagementService);
             PhotoRepositry = new PhotoRepositry(_context);
+          
         }
     }
 }

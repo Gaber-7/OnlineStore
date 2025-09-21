@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecom.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250915051746_init")]
-    partial class init
+    [Migration("20250921061000_CreateTotalTable")]
+    partial class CreateTotalTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,14 @@ namespace Ecom.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Devices and gadgets",
+                            Name = "Electronics"
+                        });
                 });
 
             modelBuilder.Entity("Ecom.Core.Entites.Product.Photo", b =>
@@ -67,6 +75,14 @@ namespace Ecom.Infrastructure.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Photos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImageName = "product-1.jpg",
+                            ProductId = 1
+                        });
                 });
 
             modelBuilder.Entity("Ecom.Core.Entites.Product.Product", b =>
@@ -90,7 +106,10 @@ namespace Ecom.Infrastructure.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("NewPrice")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("OldPrice")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
@@ -98,33 +117,37 @@ namespace Ecom.Infrastructure.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Description = "Latest model smartphone new ",
+                            Name = "Smartphone",
+                            NewPrice = 699.999m,
+                            OldPrice = 599.999m
+                        });
                 });
 
             modelBuilder.Entity("Ecom.Core.Entites.Product.Photo", b =>
                 {
-                    b.HasOne("Ecom.Core.Entites.Product.Product", "Product")
+                    b.HasOne("Ecom.Core.Entites.Product.Product", null)
                         .WithMany("Photos")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Ecom.Core.Entites.Product.Product", b =>
                 {
                     b.HasOne("Ecom.Core.Entites.Product.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Ecom.Core.Entites.Product.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Ecom.Core.Entites.Product.Product", b =>

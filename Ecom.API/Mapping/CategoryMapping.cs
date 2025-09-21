@@ -4,16 +4,14 @@ using Ecom.Core.Entites.Product;
 
 namespace Ecom.API.Mapping
 {
-    public class CategoryMapping : Profile
-    { 
+    public class CategoryMapping : AutoMapper.Profile
+    {
         public CategoryMapping()
         {
-
-            // CreateMap<Source, Destination>();
-            CreateMap<CategoryDTO , Category>().ReverseMap();
-
+            CreateMap<CategoryDTO, Category>().ReverseMap();
             CreateMap<UpdateCategoryDTO, Category>().ReverseMap();
 
         }
+
     }
 }
