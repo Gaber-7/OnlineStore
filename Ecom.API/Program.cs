@@ -35,7 +35,7 @@ namespace Ecom.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseMiddleware<MiddleWare.ExcptionsMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
