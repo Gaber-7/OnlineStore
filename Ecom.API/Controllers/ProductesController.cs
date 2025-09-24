@@ -3,6 +3,7 @@ using Ecom.API.Helper;
 using Ecom.Core.DTO;
 using Ecom.Core.Entites.Product;
 using Ecom.Core.interfaces;
+using Ecom.Core.Sharing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,22 +15,19 @@ namespace Ecom.API.Controllers
         { }
 
         [HttpGet("get-all")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] ProductParams productParams)
         {
             try
             {
                 var products = await work.ProductRepositry
-                    .GetAllAsync(x => x.Category, x => x.Photos);
-
-                //  هنا بيحوّل الـ Entities اللي رجعت من الـ DB (نوعها Products) إلى قائمة من الـ DTO اللي إنت معرفه ProductDTO
-                var result = mapper.Map<List<ProductDTO>>(products);
+                    .GetAllAsync(productParams);
 
                 if (products == null )
                 {
                     return NotFound("No products found");
                 }
 
-                return Ok(result);
+                return Ok(products);
             }
             catch (Exception ex)
             {

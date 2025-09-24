@@ -1,16 +1,17 @@
-﻿using Ecom.Core.DTO;
+﻿using AutoMapper;
+using Ecom.Core.DTO;
 using Ecom.Core.Entites.Product;
 using Ecom.Core.interfaces;
+using Ecom.Core.Services;
+using Ecom.Core.Sharing;
 using Ecom.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using Ecom.Core.Services;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace Ecom.Infrastructure.Repositries
@@ -27,7 +28,38 @@ namespace Ecom.Infrastructure.Repositries
             this.mapper = mapper;
  
         }
-        public async Task<bool> AddAsync(AddProductDTO productDTO)
+
+        public async Task<IEnumerable<ProductDTO>> GetAllAsync(ProductParams productParams)    // Filter and sort products
+        {
+            var quary = context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Photos)
+                .AsNoTracking();
+
+            // Filter by categoryId if provided
+            if (productParams.categoryId.HasValue)
+                quary = quary.Where(p => p.CategoryId == productParams.categoryId.Value);
+
+
+                if (!string.IsNullOrEmpty(productParams.sort))
+                {
+                quary = productParams.sort switch
+                {
+                    "priceAsc" => quary.OrderBy(p => p.NewPrice),
+                    "priceDesc" => quary.OrderByDescending(p => p.NewPrice),
+                    _ => quary.OrderBy(p => p.Name),
+                };
+                }
+
+         
+            quary = quary.Skip((productParams.PageNumber - 1) * productParams.PageSize).Take(productParams.PageSize);   // Pagination
+
+            var result = mapper.Map<List<ProductDTO>>(quary);
+            return result;
+        }
+
+
+        public async Task<bool> AddAsync(AddProductDTO productDTO)              // Add a new product with images
         {
            if (productDTO is null) return false;
               var product = mapper.Map<Product>(productDTO);
@@ -44,9 +76,9 @@ namespace Ecom.Infrastructure.Repositries
             await context.AddRangeAsync(product.Photos);       // Add Photo entities to the context
             await context.SaveChangesAsync();
             return true;
-        }
+        }     
 
-        public async Task<bool> UpdateAsync(UpdateProductDTO updateProductDTO)
+        public async Task<bool> UpdateAsync(UpdateProductDTO updateProductDTO)            // Update an existing product and its images  
         {
            if (updateProductDTO is null)
            {
@@ -78,7 +110,7 @@ namespace Ecom.Infrastructure.Repositries
             await context.SaveChangesAsync();
 
             return true;
-        }
+        }    
         public async Task DeleteAsync(Product product)
         {
 
