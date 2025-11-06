@@ -1,4 +1,4 @@
- 
+﻿ 
 using Ecom.Infrastructure;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +11,13 @@ namespace Ecom.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200");
+                });
+            }); 
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,15 +42,21 @@ namespace Ecom.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            // ✅ 1. يجب وضع CORS بعد ExceptionMiddleware لكن قبل Authorization
             app.UseMiddleware<MiddleWare.ExcptionsMiddleware>();
+
+            app.UseStaticFiles();
+
+            app.UseCors("CorsPolicy");
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
-
             app.MapControllers();
 
             app.Run();
+
         }
     }
 }

@@ -26,22 +26,37 @@ namespace Ecom.Infrastructure.Repositries
             this.imageManagementService = imageManagementService;
             this.context = context;
             this.mapper = mapper;
- 
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetAllAsync(ProductParams productParams)    // Filter and sort products
+        public async Task<ReturnProductDTO> GetAllAsync(ProductParams productParams)    // Get all products with filtering, sorting, and pagination and searching
         {
             var quary = context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Photos)
                 .AsNoTracking();
 
+            // Filter by search term if provided...............
+            //if (!string.IsNullOrEmpty(productParams.search))
+            //    quary = quary.Where(p => p.Name.ToLower().Contains(productParams.search.ToLower())
+            //    || p.Description.ToLower().Contains(productParams.search.ToLower()));
+
+            // Filter by search term ................
+            if (!string.IsNullOrEmpty(productParams.search))
+            {
+                var searchWord = productParams.search.Split(' ');
+                quary = quary.Where(p => searchWord.All(word => p.Name.ToLower().Contains(word.ToLower())
+                || p.Description.ToLower().Contains(word.ToLower())
+                ));
+            }
+
+
             // Filter by categoryId if provided
             if (productParams.categoryId.HasValue)
                 quary = quary.Where(p => p.CategoryId == productParams.categoryId.Value);
 
 
-                if (!string.IsNullOrEmpty(productParams.sort))
+
+                if (!string.IsNullOrEmpty(productParams.sort))    
                 {
                 quary = productParams.sort switch
                 {
@@ -51,11 +66,15 @@ namespace Ecom.Infrastructure.Repositries
                 };
                 }
 
-         
-            quary = quary.Skip((productParams.PageNumber - 1) * productParams.PageSize).Take(productParams.PageSize);   // Pagination
+            ReturnProductDTO returnProductDTO = new ReturnProductDTO();  // Create ReturnProductDTO to hold results
+            returnProductDTO.TotalCountx = quary.Count();  // Get total count before pagination
 
-            var result = mapper.Map<List<ProductDTO>>(quary);
-            return result;
+            quary = quary.
+                Skip((productParams.PageNumber - 1) * productParams.PageSize)
+                .Take(productParams.PageSize);   // Pagination
+
+           returnProductDTO.Producties = mapper.Map<List<ProductDTO>>(quary);
+            return returnProductDTO;
         }
 
 
@@ -65,6 +84,7 @@ namespace Ecom.Infrastructure.Repositries
               var product = mapper.Map<Product>(productDTO);
             await context.Products.AddAsync(product);
             await context.SaveChangesAsync();
+
             // Save images and get their names..................
             var ImagePath = await imageManagementService.AddImageAsync(productDTO.Photo, productDTO.Name);   
             product.Photos = ImagePath.Select(path => new Photo        // Create Photo entities for each image name

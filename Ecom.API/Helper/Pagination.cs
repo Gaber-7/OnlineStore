@@ -2,19 +2,18 @@
 {
     public class Pagination<T> where T : class
     {
-        public Pagination(int pageNumber, int pageSize, int totalRecords, IReadOnlyList<T> data)
+        public Pagination(int pageNumber, int pageSize, int totalCount, IEnumerable<T> data)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
-            TotalRecords = totalRecords;
+            TotalCount = totalCount;
             Data = data;
         }
 
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public int TotalRecords { get; set; }
-        public IReadOnlyList<T> Data { get; set; }  
-
+        public int TotalCount { get; set; }
+        public IEnumerable<T> Data { get; set; }  
 
     }
 }

@@ -19,18 +19,20 @@ namespace Ecom.API.Controllers
         {
             try
             {
-                var products = await work.ProductRepositry
+              
+                var product = await work.ProductRepositry
                     .GetAllAsync(productParams);
+                //var totalCount = await work.ProductRepositry.CountAsync();
 
-                if (products == null )
+                if (product == null )
                 {
                     return NotFound("No products found");
                 }
 
-                return Ok(products);
+                return Ok(new Pagination<ProductDTO>(productParams.PageNumber ,productParams.PageSize ,product.TotalCountx , product.Producties ));
             }
             catch (Exception ex)
-            {
+            { 
                 return BadRequest(ex.Message);
             }
         }

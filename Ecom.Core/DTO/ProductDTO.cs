@@ -10,6 +10,7 @@ namespace Ecom.Core.DTO
 {
     public class ProductDTO
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal NewPrice { get; set; }
@@ -17,6 +18,13 @@ namespace Ecom.Core.DTO
         public String CategoryName { get; set; }
         public List<PhotoDTO> Photos { get; set; }
     }
+    public record ReturnProductDTO
+    {
+        public List<ProductDTO> Producties { get; set; }
+        public int TotalCountx { get; set; }
+
+    }
+
     public class PhotoDTO
     {
         public string ImageName { get; set; }

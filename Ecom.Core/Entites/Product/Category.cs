@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ecom.Core.Entites.Product
 {
-    public class Category : BaseEntity<int> 
+    public class Category : BaseEntity<int> // this is parent class
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
-        //public ICollection<Product> Products { get; set; }= new HashSet<Product>();
 
     }
 }
