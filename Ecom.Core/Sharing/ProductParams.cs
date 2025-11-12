@@ -24,6 +24,38 @@ namespace Ecom.Core.Sharing
     }
 }
 
+
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\cardoO Headphone Q\qx4.jpg
+
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\cardoO Headphone Q\qx2.jpg
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\cardoO Headphone Q\qx.jpg
+
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\cardoO Headphone Q\qx2.avif
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\cardoO Headphone Q\qx3.webp
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\cardoO Headphone Q\qx4.jpg
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\cardoO Headphone Q\qx2.jpg
+
+
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS ROG Strix\713o1MrAdrL._AC_SX679_.jpg
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS ROG Strix\71UZ4hlwT3L._AC_SX679_.jpg
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS ROG Strix\71Z3SNa-3rL._AC_SX679_.jpg
+
+
+
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS TUF Dash 15 (2022)\312 (2).jpg
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS TUF Dash 15 (2022)\312 (2).jpg
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS TUF Dash 15 (2022)\ASUS TUF Dash 15 (2022)312.jpg
+// C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS TUF Dash 15 (2022)\71uFCV0PnSL._AC_SX466_.jpg
+
+
+// https://localhost:7028/Images/cardoO Headphone\cardoO Headphone1.webp
+
+// https://localhost:7028/Images/Images\ASUS TUF Dash 15 (2022)\312.jpg
+
+// Headphone\cardoO Headphone5.webp
+// https://localhost:7028/Images/Images\ASUS TUF Dash 15 (2022)\312.jpg
+//  https://localhost:7028/Images/Images\ASUS TUF Dash 15 (2022)\312.jpg
+
 // C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS ROG Strix G16\713o1MrAdrL._AC_SX679_.jpg
 // C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS ROG Strix G16\71UZ4hlwT3L._AC_SX679_.jpg
 //C:\Users\SW-15\source\repos\ECom\Ecom.API\wwwroot\Images\ASUS ROG TUF\61OYRwzcUoL._AC_SX466_.jpg

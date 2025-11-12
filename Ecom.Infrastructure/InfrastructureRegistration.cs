@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,16 @@ namespace Ecom.Infrastructure
         {
             services.AddScoped(typeof(IGenericRepositry<>), typeof(GenericRepositry<>));
             services.AddSingleton<IImageManagementService, ImageManagementService>();
+
+            // Redis Configuration.................
+            services.AddSingleton<IConnectionMultiplexer>(i =>
+            {
+                var Config = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(Config);
+
+            });
+
+            // Repository Registration................. 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<AppDbContext>(options =>
              options.UseSqlServer(configuration.GetConnectionString("EComDataBase")));
